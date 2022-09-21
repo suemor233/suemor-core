@@ -17,6 +17,7 @@ import { UserDto } from './user.dto'
 
 @Injectable()
 export class UserService {
+
   constructor(
     @InjectModel(UserModel.name)
     private readonly userModel: Model<UserModel>,
@@ -31,6 +32,7 @@ export class UserService {
     user.password = hashSync(user.password, 6)
     const authCode = nanoid(10)
 
+    console.log(user);
     const res = await this.userModel.create({
       ...user,
       authCode,
@@ -39,7 +41,7 @@ export class UserService {
   }
 
   async login(username: string, password: string) {
-    const user = await this.userModel.findOne({ username }).select('+password')
+    const user = await this.userModel.findOne({ username }).select(['+password','+authCode'])
     if (!user) {
       await sleep(1000)
       throw new ForbiddenException('用户名不正确')
@@ -48,8 +50,11 @@ export class UserService {
       await sleep(1000)
       throw new ForbiddenException('密码不正确')
     }
-
     return user
+  }
+
+  getUserInfo() {
+    return this.userModel.findOne().select(['-password','-authCode','-created'])  
   }
 
   async hasMaster() {

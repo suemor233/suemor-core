@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   app:
-    container_name: LostAndFound-Core
-    image: suemor/lost-and-found:latest
+    container_name: suemor-core
+    image: suemor/core:latest
     command: node index.js --db_host=mongo --color
     environment:
       - TZ=Asia/Shanghai
@@ -11,7 +11,7 @@ services:
     volumes:
       - ./data/lost-found-api:/root/.lost-found-api
     ports:
-      - '2349:2349'
+      - '4913:4913'
     depends_on:
       - mongo
     links:
@@ -32,7 +32,7 @@ services:
     volumes:
       - ./data/db:/data/db
     ports:
-      - '3344:27017'
+      - '4912:27017'
     networks:
       - app-network
     restart: always

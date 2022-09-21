@@ -7,9 +7,12 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { UserModule } from './modules/user/user.module'
 import { DatabaseModule } from './processors/database/database.module'
 import { HelperModule } from './processors/helper/helper.module'
+import { AggregateModule } from './modules/aggregate/aggregate.module';
+import { PostModule } from './modules/post/post.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule,HelperModule],
+  imports: [DatabaseModule, UserModule,HelperModule, AggregateModule, PostModule, CategoryModule],
   controllers: [AppController],
   providers: [
     {

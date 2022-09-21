@@ -1,7 +1,7 @@
 import { Body, Controller, Get,  HttpCode,  Post } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 import { ApiName } from '~/common/decorator/openapi.decorator'
-import { UserDto } from './user.dto'
+import { UserDto, UserRegisterDto } from './user.dto'
 import { UserService } from './user.service'
 import { AuthService } from '../auth/auth.service';
 import { Auth } from '~/common/decorator/auth.decorator'
@@ -17,9 +17,15 @@ export class UserController {
   
   @Post('register')
   @ApiOperation({ summary: '注册' })
-  async register(@Body() userDto: UserDto) {
+  async register(@Body() userDto: UserRegisterDto) {
     await this.userService.createUser(userDto)
     return 'ok'  
+  }
+
+  @Get()
+  @ApiOperation({ summary: '获取主人基本信息' })
+  async getUserInfo() {
+    return await this.userService.getUserInfo()
   }
 
   @Post('login')

@@ -1,6 +1,6 @@
 import { isDev } from './global/env.global'
 import { argv } from 'zx-cjs'
-export const PORT = 2349
+export const PORT = 4913
 export const API_VERSION = 2
 
 export const CROSS_DOMAIN = {
