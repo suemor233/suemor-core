@@ -20,6 +20,9 @@ export class UserRegisterDto extends UserDto{
   @IsUrl({ message: 'url 不合法' })
   avatar:string
 
+  @ApiProperty({ description: '介绍' })
+  introduce:string
+
   @IsOptional()
   @IsObject()
   @ApiProperty({ description: '各种社交 id 记录' })

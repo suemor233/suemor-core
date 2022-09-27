@@ -1,4 +1,4 @@
-import { ArrayUnique, IsString } from 'class-validator'
+import { ArrayUnique, IsNumber, IsString } from 'class-validator'
 
 export class PostDto {
   @IsString({ message: '标题' })
@@ -12,4 +12,10 @@ export class PostDto {
 
   @IsString({ message: '分类' })
   category: string
+}
+
+
+export class PaginateDto {
+  pageCurrent: string
+  pageSize: string
 }

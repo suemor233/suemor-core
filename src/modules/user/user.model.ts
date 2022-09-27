@@ -27,6 +27,9 @@ export class UserModel extends Document {
   @Prop()
   avatar:string
 
+  @Prop()
+  introduce:string
+
   @Prop({ type: mongoose.Schema.Types.Mixed })
   socialIds:any
 }
