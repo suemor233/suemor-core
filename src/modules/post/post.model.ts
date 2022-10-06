@@ -8,7 +8,7 @@ import { CategoryModel } from '../category/category.model'
   toObject: { virtuals: true, getters: true },
   timestamps: {
     createdAt: 'created',
-    updatedAt: false,
+    updatedAt: true,
   },
   versionKey: false,
 })

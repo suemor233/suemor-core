@@ -4,7 +4,7 @@ export const PORT = 4913
 export const API_VERSION = 2
 
 export const CROSS_DOMAIN = {
-  allowedOrigins: ['suemor.com', 'localhost', '127.0.0.1', '.*dev'],
+  allowedOrigins: ['suemor.com', 'localhost', '127.0.0.1', '.*dev','192.168.1.5'],
 }
 
 export const MONGO_DB = {

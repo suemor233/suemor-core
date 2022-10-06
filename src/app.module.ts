@@ -10,9 +10,10 @@ import { HelperModule } from './processors/helper/helper.module'
 import { AggregateModule } from './modules/aggregate/aggregate.module';
 import { PostModule } from './modules/post/post.module';
 import { CategoryModule } from './modules/category/category.module';
+import { FriendsModule } from './modules/friends/friends.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule,HelperModule, AggregateModule, PostModule, CategoryModule],
+  imports: [DatabaseModule, UserModule,HelperModule, AggregateModule, PostModule, CategoryModule, FriendsModule],
   controllers: [AppController],
   providers: [
     {
