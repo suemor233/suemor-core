@@ -33,20 +33,6 @@ export class PostService {
   }
 
   async postPaginate(pageCurrent: number, pageSize: number) {
-    // const postList = await this.postModel
-    //   .find({
-    //     $project: {
-    //       content: {
-    //         $substr: ['$content', 1, 5],
-    //       },
-    //     },
-    //   })
-    //   .skip(pageSize * (pageCurrent - 1))
-    //   .limit(pageSize)
-    //   .sort({ created: 'asc' })
-    //   .populate('category')
-    //   .lean()
-
     const postList = await this.postModel.populate(
       await this.postModel
         .aggregate([

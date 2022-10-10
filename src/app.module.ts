@@ -11,9 +11,10 @@ import { AggregateModule } from './modules/aggregate/aggregate.module';
 import { PostModule } from './modules/post/post.module';
 import { CategoryModule } from './modules/category/category.module';
 import { FriendsModule } from './modules/friends/friends.module';
+import { PageModule } from './modules/page/page.module';
 
 @Module({
-  imports: [DatabaseModule, UserModule,HelperModule, AggregateModule, PostModule, CategoryModule, FriendsModule],
+  imports: [DatabaseModule, UserModule,HelperModule, AggregateModule, PostModule, CategoryModule, FriendsModule, PageModule],
   controllers: [AppController],
   providers: [
     {

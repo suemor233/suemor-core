@@ -34,8 +34,8 @@ export class FriendsService {
     const doc = await this.friendModel.findOneAndUpdate(
       { _id: id },
       { state: LinkState.Pass },
-    )
-    
+      {lean:true}
+    ) 
     if (!doc) {
       throw new NotFoundException()
     }
@@ -44,6 +44,6 @@ export class FriendsService {
 
 
   async getAll() {
-    return this.friendModel.find({state:LinkState.Pass})
+    return this.friendModel.aggregate().match({ state: LinkState.Pass }).sample(await this.friendModel.countDocuments())
   }
 }

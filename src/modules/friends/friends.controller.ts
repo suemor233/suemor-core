@@ -11,8 +11,8 @@ import { FriendsService } from './friends.service'
 export class FriendsController {
   constructor(private readonly friendsService: FriendsService) {}
 
-  @Post('/audit')
-  auditLink(@Body() friend: FriendsModel) {
+  @Post('audit')
+  async auditLink(@Body() friend: FriendsModel) {
     return this.friendsService.auditLink({
       state: LinkState.Audit,
       ...friend,
@@ -25,6 +25,7 @@ export class FriendsController {
   }
 
   @Patch('/audit/:id')
+  @Auth()
   async approveLink(@Param('id') id: string) {
     return await this.friendsService.approveLink(id)
   }

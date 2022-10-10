@@ -1,7 +1,5 @@
 import { IsEnum, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator'
-import  { Document } from 'mongoose'
 import { Prop, Schema } from '@nestjs/mongoose'
-import { CategoryModel } from '../category/category.model'
 
 
 export enum LinkState {
@@ -33,7 +31,6 @@ export class FriendsModel  {
   url: string
 
 
-  @IsOptional()
   @IsUrl(
     { require_protocol: true, protocols: ['https'] },
     { message: '只有 HTTPS 被允许哦' },
@@ -41,11 +38,9 @@ export class FriendsModel  {
   @Prop({ trim: true })
   avatar:string
 
-  @IsOptional()
   @IsString()
   @Prop({ trim: true })
-  @MaxLength(50, { message: '描述信息不可以超过50个字符' })
-  description?: string
+  description: string
 
   @IsOptional()
   @IsEnum(LinkState)

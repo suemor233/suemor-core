@@ -21,6 +21,7 @@ export class UserRegisterDto extends UserDto{
   avatar:string
 
   @ApiProperty({ description: '介绍' })
+  @IsString({ message: '介绍' })
   introduce:string
 
   @IsOptional()

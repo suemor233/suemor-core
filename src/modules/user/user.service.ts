@@ -32,7 +32,6 @@ export class UserService {
     user.password = hashSync(user.password, 6)
     const authCode = nanoid(10)
 
-    console.log(user);
     const res = await this.userModel.create({
       ...user,
       authCode,
