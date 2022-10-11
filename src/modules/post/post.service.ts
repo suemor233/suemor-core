@@ -51,7 +51,7 @@ export class PostService {
         ])
         .skip(pageSize * (pageCurrent - 1))
         .limit(pageSize)
-        .sort({ created: 'asc' }),
+        .sort({ created: 'desc' }),
       { path: 'category' },
     )
     const totalCount = await this.postModel.count()
