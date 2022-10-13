@@ -9,7 +9,7 @@ services:
       - TZ=Asia/Shanghai
       - NODE_ENV=production
     volumes:
-      - ./data/lost-found-api:/root/.lost-found-api
+      - ./data/suemor-core:/root/.suemor-core
     ports:
       - '4913:4913'
     depends_on:
@@ -20,7 +20,7 @@ services:
       - app-network
     restart: always
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://127.0.0.1:2349/api/v2/ping']
+      test: ['CMD', 'curl', '-f', 'http://127.0.0.1:4913/api/v2/ping']
       interval: 1m30s
       timeout: 30s
       retries: 5

@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "author": "suemor <https://suemor.com>",
-  "private": true,
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
