@@ -52,8 +52,12 @@ export class UserService {
     return user
   }
 
-  getUserInfo() {
-    return this.userModel.findOne().select(['-password','-authCode','-created'])  
+  async getUserInfo() {
+    const userInfo = await this.userModel.findOne().select(['-password','-authCode','-created'])  
+    if (!userInfo) {
+      throw new BadRequestException('没有完成初始化!')
+    }
+    return userInfo
   }
 
   async hasMaster() {
