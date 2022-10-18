@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Auth } from '~/common/decorator/auth.decorator';
 import { ApiName } from '~/common/decorator/openapi.decorator';
 import { CategoryDto } from './category.dto';
@@ -14,5 +14,10 @@ export class CategoryController {
   @Auth()
   async create(@Body() category: CategoryDto) {
     return this.categoryService.create(category)
+  }
+
+  @Get('/:slug')
+  async categoryBySlug(@Param('slug') slug: string){
+    return await this.categoryService.find(slug)
   }
 }

@@ -3,8 +3,8 @@ version: '3.8'
 services:
   app:
     container_name: suemor-core
-    image: suemor/core:latest
-    command: node index.js --db_host=mongo --color
+    image: suemor/suemor-core:latest
+    command: node index.js --db_host=suemor_mongo --color
     environment:
       - TZ=Asia/Shanghai
       - NODE_ENV=production
@@ -13,9 +13,9 @@ services:
     ports:
       - '4913:4913'
     depends_on:
-      - mongo
+      - suemor_mongo
     links:
-      - mongo
+      - suemor_mongo
     networks:
       - app-network
     restart: always
@@ -26,8 +26,8 @@ services:
       retries: 5
       start_period: 30s
 
-  mongo:
-    container_name: mongo
+  suemor_mongo:
+    container_name: suemor_mongo
     image: mongo
     volumes:
       - ./data/db:/data/db

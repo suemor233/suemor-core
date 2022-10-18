@@ -30,4 +30,16 @@ export class PostController {
     console.log(pageCurrent, pageSize)
     return this.postService.postPaginate(Number(pageCurrent), Number(pageSize))
   }
+
+  @Get('/category/:slug')
+  @ApiOperation({ summary: '分页分类获取博文' })
+  async getPostByCategory(@Param('slug') slug: string,@Query('pageCurrent') pageCurrent: string,@Query('pageSize') pageSize: string){
+    return await this.postService.findPostByCategory(slug,Number(pageCurrent), Number(pageSize))
+  }
+
+  @Get('/tag/:slug')
+  @ApiOperation({ summary: '分页标签获取博文' })
+  async getPostByTag(@Param('slug') slug: string,@Query('pageCurrent') pageCurrent: string,@Query('pageSize') pageSize: string){
+    return await this.postService.findPostByTag(slug,Number(pageCurrent), Number(pageSize))
+  }
 }

@@ -9,6 +9,8 @@ import { PostModel } from './post.model'
 
 @Injectable()
 export class PostService {
+  
+
   constructor(
     @InjectModel(PostModel.name)
     private readonly postModel: Model<PostModel>,
@@ -55,6 +57,82 @@ export class PostService {
       { path: 'category' },
     )
     const totalCount = await this.postModel.count()
+    const totalPages = Math.ceil(totalCount / pageSize)
+    return {
+      postList,
+      totalCount,
+      totalPages,
+    }
+  }
+
+
+  async findPostByCategory(slug: string,pageCurrent: number, pageSize: number) {
+    const category = await this.categoryModel.findOne({ slug })
+    const postList = await this.postModel.populate(
+      await this.postModel
+        .aggregate([
+          {
+            $match:{
+              category:{ $eq: category.id }
+            }
+          },
+          {
+            $project: {
+              content: {
+                $substrCP: ['$content', 1, 100],
+              }, 
+              _id: 1,
+              title: 1,
+              category: 1,
+              tags: 1,
+              created: 1,
+            }
+          },
+          
+        ])
+        .skip(pageSize * (pageCurrent - 1))
+        .limit(pageSize)
+        .sort({ created: 'desc' }),
+      { path: 'category' },
+    )
+    const totalCount = await this.postModel.count({category:category.id})
+    const totalPages = Math.ceil(totalCount / pageSize)
+    return {
+      postList,
+      totalCount,
+      totalPages,
+    }
+  }
+
+  async findPostByTag(slug: string,pageCurrent: number, pageSize: number) {
+    const postList = await this.postModel.populate(
+      await this.postModel
+        .aggregate([
+          {
+            $match:{
+              tags:{ $eq: slug }
+            }
+          },
+          {
+            $project: {
+              content: {
+                $substrCP: ['$content', 1, 100],
+              }, 
+              _id: 1,
+              title: 1,
+              category: 1,
+              tags: 1,
+              created: 1,
+            }
+          },
+          
+        ])
+        .skip(pageSize * (pageCurrent - 1))
+        .limit(pageSize)
+        .sort({ created: 'desc' }),
+      { path: 'category' },
+    )
+    const totalCount = await this.postModel.count({tags:slug})
     const totalPages = Math.ceil(totalCount / pageSize)
     return {
       postList,
