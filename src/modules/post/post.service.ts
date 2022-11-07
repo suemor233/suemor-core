@@ -9,8 +9,6 @@ import { PostModel } from './post.model'
 
 @Injectable()
 export class PostService {
-  
-
   constructor(
     @InjectModel(PostModel.name)
     private readonly postModel: Model<PostModel>,
@@ -28,10 +26,24 @@ export class PostService {
 
   async findPostById(id: string) {
     const post = await this.postModel.findById(id).populate('category')
+
     if (!post) {
       throw new ForbiddenException('文章不存在')
     }
-    return post
+    const last = await this.postModel
+      .findOne({ _id: { $gt: post._id } })
+      .sort({ _id: 1 })
+      .select(['_id', 'title'])
+
+    const next = await this.postModel
+      .findOne({ _id: { $lt: post._id } })
+      .sort({ _id: -1 })
+      .select(['_id', 'title'])
+    return {
+      post,
+      last,
+      next,
+    }
   }
 
   async postPaginate(pageCurrent: number, pageSize: number) {
@@ -51,9 +63,9 @@ export class PostService {
             },
           },
         ])
+        .sort({ created: 'desc' })
         .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize)
-        .sort({ created: 'desc' }),
+        .limit(pageSize),
       { path: 'category' },
     )
     const totalCount = await this.postModel.count()
@@ -65,37 +77,39 @@ export class PostService {
     }
   }
 
-
-  async findPostByCategory(slug: string,pageCurrent: number, pageSize: number) {
+  async findPostByCategory(
+    slug: string,
+    pageCurrent: number,
+    pageSize: number,
+  ) {
     const category = await this.categoryModel.findOne({ slug })
     const postList = await this.postModel.populate(
       await this.postModel
         .aggregate([
           {
-            $match:{
-              category:{ $eq: category.id }
-            }
+            $match: {
+              category: { $eq: category.id },
+            },
           },
           {
             $project: {
               content: {
                 $substrCP: ['$content', 1, 100],
-              }, 
+              },
               _id: 1,
               title: 1,
               category: 1,
               tags: 1,
               created: 1,
-            }
+            },
           },
-          
         ])
+        .sort({ created: 'desc' })
         .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize)
-        .sort({ created: 'desc' }),
+        .limit(pageSize),
       { path: 'category' },
     )
-    const totalCount = await this.postModel.count({category:category.id})
+    const totalCount = await this.postModel.count({ category: category.id })
     const totalPages = Math.ceil(totalCount / pageSize)
     return {
       postList,
@@ -104,35 +118,34 @@ export class PostService {
     }
   }
 
-  async findPostByTag(slug: string,pageCurrent: number, pageSize: number) {
+  async findPostByTag(slug: string, pageCurrent: number, pageSize: number) {
     const postList = await this.postModel.populate(
       await this.postModel
         .aggregate([
           {
-            $match:{
-              tags:{ $eq: slug }
-            }
+            $match: {
+              tags: { $eq: slug },
+            },
           },
           {
             $project: {
               content: {
                 $substrCP: ['$content', 1, 100],
-              }, 
+              },
               _id: 1,
               title: 1,
               category: 1,
               tags: 1,
               created: 1,
-            }
+            },
           },
-          
         ])
+        .sort({ created: 'desc' })
         .skip(pageSize * (pageCurrent - 1))
-        .limit(pageSize)
-        .sort({ created: 'desc' }),
+        .limit(pageSize),
       { path: 'category' },
     )
-    const totalCount = await this.postModel.count({tags:slug})
+    const totalCount = await this.postModel.count({ tags: slug })
     const totalPages = Math.ceil(totalCount / pageSize)
     return {
       postList,

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -15,29 +14,15 @@
     "noImplicitAny": false,
     "incremental": true,
     "resolveJsonModule": true,
-    "lib": [
-      "ES2021",
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "preserveSymlinks": true,
+    "lib": ["ES2021", "ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "typeRoots": ["node_modules/@types"],
     "paths": {
-      "~": [
-        "./src"
-      ],
-      "~/*": [
-        "./src/*"
-      ]
+      "~": ["./src"],
+      "~/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "*.d.ts"
-  ],
-  "exclude": [
-    "dist",
-    "tmp",
-    "assets/types/type.declare.ts"
-  ]
+  "include": ["src/**/*", "*.d.ts"],
+  "exclude": ["dist", "tmp", "assets/types/type.declare.ts"]
 }

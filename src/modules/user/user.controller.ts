@@ -1,10 +1,12 @@
-import { Body, Controller, ForbiddenException, Get,  HttpCode,  Post } from '@nestjs/common'
+import { Body, Controller, ForbiddenException, Get,  HttpCode,  Patch,  Post } from '@nestjs/common'
 import { ApiOperation } from '@nestjs/swagger'
 import { ApiName } from '~/common/decorator/openapi.decorator'
 import { UserDto, UserRegisterDto } from './user.dto'
 import { UserService } from './user.service'
 import { AuthService } from '../auth/auth.service';
 import { Auth } from '~/common/decorator/auth.decorator'
+import { CurrentUser } from '~/common/decorator/current-user.decorator'
+import { UserModel } from './user.model'
 
 
 @Controller('user')
@@ -40,6 +42,16 @@ export class UserController {
       expiresIn: 7,
     }
   }
+
+  @Patch()
+  @Auth()
+  async patchUserData(
+    @Body() body: UserDto,
+    @CurrentUser() user: UserModel,
+  ) {
+    return await this.userService.patchUserData(body,user)
+  }
+
 
   @Get('check_logged')
   @ApiOperation({ summary: '判断当前 Token 是否有效 ' })

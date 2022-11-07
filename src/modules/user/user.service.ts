@@ -63,4 +63,8 @@ export class UserService {
   async hasMaster() {
     return !!(await this.userModel.count())
   }
+
+    patchUserData(data: UserDto, user: UserModel) {
+    return this.userModel.updateOne({_id: user._id}, data)
+  }
 }
